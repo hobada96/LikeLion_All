@@ -1,0 +1,22 @@
+python -m venv 이름     || 가상환경 설정
+source 가상환경 이름/Scripts/activate     || 실행
+pip install django                              || 가상환경에 장고설치
+deactivate                           || 가상환경 종료
+django-admin startproject 프로젝트 이름 || 프로젝트 생성
+python manage.py startapp appname || 앱 생성
+
+python manage.py runserver || 서버 실행
+python manage.py createsuperuser || 슈퍼유저 생성
+
+-------------------------------------------------------------------------
+setting.py 에 들어가서 installed_apps 에다가 추가(app이름.apps.첫글자대문자app이름Config )
+temlplates폴더를 만들고 그 안에 원하는 html문서 작성
+views.py 에 함수작성 def home(requset): retrun render(request, 'home.html')
+urls.py에  views.py를 import myapp.views
+urls.py에 path('',wordcount.vies.home, name="home")
+model.py에 DB
+
+python manage.py makemigration
+python manage.py migrate
+
+python manage.py createsuperuser
