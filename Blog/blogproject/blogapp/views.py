@@ -8,8 +8,9 @@ def home(request):
     return render(request,'home.html', {'blogs':blogs})
 
 def detail(request, blog_id) :
+    blogs = Blog.objects # 쿼리셋
     details = get_object_or_404(Blog, pk=blog_id)
-    return render(request, 'detail.html', {'details':details})
+    return render(request, 'detail.html', {'blogs':blogs, 'details':details})
 
 def new(request): #new.html을 띄워주는 함수
     return render(request, 'new.html')
