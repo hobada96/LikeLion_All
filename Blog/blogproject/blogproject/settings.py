@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
+import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -21,10 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = '&fd&(n-ueqw1k(kus!an)^9g2u6#y!=)_p#b*!a8io5u0de#68'
-
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','&fd&(n-ueqw1k(kus!an)^9g2u6#y!=)_p#b*!a8io5u0de#68')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+#DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG',True))
 ALLOWED_HOSTS = []
 
 
@@ -37,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blogapp.apps.BlogappConfig',
+    'blogapp.apps.BlogappConfi',
     'portfolio.apps.PortfolioConfig',
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -123,3 +125,8 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+django_heroku.setting(locals())
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
